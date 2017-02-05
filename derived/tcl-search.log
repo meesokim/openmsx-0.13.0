@@ -1,0 +1,16 @@
+Looking for Tcl...
+Config script: /usr/lib/tclConfig.sh
+Found: version 8.6
+Config script: /usr/lib/tcl8.6/tclConfig.sh
+Found: version 8.6
+Config script: /usr/lib/tcl8.5/tclConfig.sh
+Found: version 8.5
+Selected: /usr/lib/tcl8.5/tclConfig.sh
+Getting Tcl compile flags...
+Result: -I/usr/include/tcl8.5
+Getting Tcl library type (shared/static)...
+Result: 1
+Getting Tcl dynamic link flags...
+Result: -L/usr/lib/arm-linux-gnueabihf -ltcl8.5
+Getting Tcl version...
+Result: 8.5.17
