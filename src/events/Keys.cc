@@ -345,6 +345,7 @@ KeyCode getCode(SDLKey key, SDLMod mod, Uint8 scancode, bool release)
 		// as reported by Miso Kim
 		switch (scancode) {
 		case 56:
+		case 122:
 			result = static_cast<KeyCode>(K_RALT);
 			break;
 		}
