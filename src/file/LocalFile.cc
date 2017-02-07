@@ -2,13 +2,16 @@
 #include "unistdp.hh"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <linux/fs.h>
 #if HAVE_MMAP
 #include <sys/mman.h>
 #endif
 #if defined _WIN32
 #include <io.h>
-#include <iostream>
 #endif
+#include <iostream>
 #include "LocalFile.hh"
 #include "FileException.hh"
 #include "FileNotFoundException.hh"
@@ -20,6 +23,7 @@
 #include <cassert>
 
 using std::string;
+using namespace::std;
 
 namespace openmsx {
 
@@ -42,20 +46,15 @@ LocalFile::LocalFile(string_ref filename_, File::OpenMode mode)
 
 	const string name = FileOperations::getNativePath(filename);
 	if ((mode == File::SAVE_PERSISTENT) || (mode == File::TRUNCATE)) {
-		// open file read/write truncated
 		file = FileOperations::openFile(name, "wb+");
 	} else if (mode == File::CREATE) {
-		// open file read/write
 		file = FileOperations::openFile(name, "rb+");
 		if (!file) {
-			// create if it didn't exist yet
 			file = FileOperations::openFile(name, "wb+");
 		}
 	} else {
-		// open file read/write
 		file = FileOperations::openFile(name, "rb+");
 		if (!file) {
-			// if that fails try read only
 			file = FileOperations::openFile(name, "rb");
 			readOnly = true;
 		}
@@ -220,6 +219,14 @@ size_t LocalFile::getSize()
 #else
 	struct stat st;
 	int ret = fstat(fileno(file.get()), &st);
+	if (st.st_size == 0)
+	{
+		ioctl(fileno(file.get()), BLKSSZGET, &st.st_blksize);
+		ioctl(fileno(file.get()), BLKGETSIZE, &st.st_blocks);
+		st.st_size = st.st_blksize * st.st_blocks;
+		//cout << filename <<  ",ioctl:BLOCKSIZE:" << st.st_size << endl;
+	}
+
 	if (ret && (errno == EOVERFLOW)) {
 		// on 32-bit systems, the fstat() call returns a EOVERFLOW
 		// error in case the file is bigger than (1<<31)-1 bytes
