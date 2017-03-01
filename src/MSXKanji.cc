@@ -30,7 +30,7 @@ void MSXKanji::writeIO(word port, byte value, EmuTime::param /*time*/)
 		adr1 = (adr1 & 0x1f800) | ((value & 0x3f) << 5);
 		break;
 	case 1:
-		adr1 = (adr1 & 0x007e0) | ((value & 0x3f) << 11);
+		adr1 = (adr1 & 0x007e0) | ((value & 0x7f) << 11);
 		break;
 	case 2:
 		adr2 = (adr2 & 0x3f800) | ((value & 0x3f) << 5);

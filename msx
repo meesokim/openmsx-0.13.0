@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ -z "$1" ]
+then
+  machine="Daewoo_DPC-200"
+else
+  machine="$1"
+fi
+
+sudo ~pi/openmsx-0.13.0/derived/openmsx -machine "$machine" -ext RPMCSlot $2 $3 $4
