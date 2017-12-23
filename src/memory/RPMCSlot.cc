@@ -120,28 +120,7 @@ void RPMCSlot::writeMem(word address, byte value, EmuTime::param time)
 
 byte RPMCSlot::readMem(word address, EmuTime::param time)
 {
-	byte a;
-	static word paddr;
-	static byte pb;
-	#if 1
-	byte b = msxread(1, address);
-	#if 0
-	if (address > 0x4000 && address < 0xc000 && b != (a = rom[address-0x4000])) {
-		printf("%04x:%02x!=%02x(rom)\n", address, b, a);
-		//b = rom[address-0x4000];
-	}
-	#endif
-	#else
-	byte b = rom[address-0x4000];
-	#endif
-	#if 0
-	if (address < 0x4000 && (paddr != address || pb != b)) {
-		printf("M%04x:%02xr\n", address, b);		
-		paddr = address;
-		pb = b;
-	}
-	#endif
-	return b;
+	return msxread(1, address);
 }
 
 

@@ -5,7 +5,7 @@
 #include "TclObject.hh"
 #include "string_ref.hh"
 #include <vector>
-#include <tcl.h>
+#include <tcl/tcl.h>
 
 namespace openmsx {
 

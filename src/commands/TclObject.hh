@@ -4,7 +4,7 @@
 #include "string_ref.hh"
 #include "openmsx.hh"
 #include "xxhash.hh"
-#include <tcl.h>
+#include <tcl/tcl.h>
 #include <iterator>
 #include <cassert>
 
